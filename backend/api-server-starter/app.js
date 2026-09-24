@@ -4,7 +4,7 @@ const app = express();
 const morgan = require("morgan");
 const cors = require("cors");
 const jobRouter = require("./routes/jobRouter");
-// const userRouter = require("./routes/userRouter");
+const userRouter = require("./routes/userRouter");
 const { unknownEndpoint,errorHandler } = require("./middleware/customMiddleware");
 const connectDB = require("./config/db");
 
@@ -18,6 +18,8 @@ connectDB();
 
 //Routes
 app.use("/api/jobs", jobRouter);
+app.use("/api/users", userRouter);
+
 app.use(unknownEndpoint);
 app.use(errorHandler);
 
