@@ -1,6 +1,6 @@
 # Self Assessment - Sehwinder Singh Mundra
 
-**Coding Marathon 2 **
+Coding Marathon 2 
 
 In this marathon Me and Yun were responsible for the backend: the job CRUD API, user signup and login with JWT, protecting the job routes and deploying the APIs to Render. I also set up the GitHub repository, merged the branches, and helped connect the frontend to the API.I used an LLM to review my code and my debugging process and to help me reflect on what went well and what I should improve. The examples below are real problems I ran into.
 
