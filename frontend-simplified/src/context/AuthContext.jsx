@@ -14,7 +14,10 @@ export const authReducer = (state, action) => {
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user: null });
+  const [state, dispatch] = useReducer(authReducer, {
+     user: JSON.parse(localStorage.getItem('user')),
+  });
+
 
   useEffect(() => {
     // Check if user is already saved in localStorage when app loads
