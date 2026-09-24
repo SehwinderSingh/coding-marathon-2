@@ -19,19 +19,24 @@ const JobPage = () => {
   //   return;
   // };
 
-  const deleteJob = async (id) => {
-    try {
-      const res = await fetch(`/api/jobs/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) {
-        throw new Error("Failed to delete job");
-      }
-    } catch (error) {
-      console.error("Error deleting job:", error);
-      toast.error("Failed to delete the job");
+ const deleteJob = async (id) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  try {
+    const res = await fetch(`/api/jobs/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Failed to delete job");
     }
-  };
+  } catch (error) {
+    console.error("Error deleting job:", error);
+    toast.error("Failed to delete the job");
+  }
+};
 
   useEffect(() => {
     const fetchJob = async () => {
