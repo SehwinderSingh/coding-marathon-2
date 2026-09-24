@@ -8,7 +8,7 @@ const SignupPage = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [gender, setGender] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
-    const [city, setCity] = useState("");
+    const [address, setAddress] = useState("");
     const [error, setError] = useState("");
 
     const handleSubmit = (e) => {
@@ -28,11 +28,7 @@ const SignupPage = () => {
             phone_number: phoneNumber,
             gender,
             date_of_birth: dateOfBirth,
-            address: {
-                street,
-                city,
-                zipCode,
-            },
+            address,
         };
 
         console.log("Signup data:", newUser);
@@ -129,14 +125,13 @@ const SignupPage = () => {
                                 required
                             />
                         </div>
-
                         <div className="mb-4">
-                            <label className="block font-bold mb-2">City</label>
+                            <label className="block font-bold mb-2">Address</label>
                             <input
                                 type="text"
                                 className="border rounded w-full py-2 px-3"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
+                                value={address}
+                                onChange={(e) => setAddress(e.target.value)}
                                 required
                             />
                         </div>
