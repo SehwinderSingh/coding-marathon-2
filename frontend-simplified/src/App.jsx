@@ -12,7 +12,7 @@ import JobPage from "./pages/JobPage";
 import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
 import LoginPage from "./pages/Login";
-import SignupPage from "./pages/signuppage";
+import SignupPage from "./pages/SignupPage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -23,9 +23,9 @@ const App = () => {
         <Route path="/add-job" element={<AddJobPage />} />
         <Route path="/edit-job/:id" element={<EditJobPage />} />
         <Route path="/jobs/:id" element={<JobPage />} />
-        <Route path="*" element={<NotFoundPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
 
     )

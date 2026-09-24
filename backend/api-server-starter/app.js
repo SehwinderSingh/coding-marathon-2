@@ -16,7 +16,7 @@ app.use(morgan("dev"));
 
 connectDB();
 
-// Use the userRouter for all /users routes
+//Routes
 app.use("/api/jobs", jobRouter);
 app.use(unknownEndpoint);
 app.use(errorHandler);
