@@ -28,9 +28,14 @@ const getJobById = async (req, res) => {
     return res.status(400).json({ message: "Invalid job id" });
   }
   try {
-    const newJob = await Job.findById(jobId);
-    if (!job) res.status(200).json(job);
+    const job = await Job.findById(jobId);
+    if (Job) {
+      res.status(200).json(job);
+    } else {
+      res.status(404).json({ message: "Job not found" });
+    }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Failed to get job by id" });
   }
 };
