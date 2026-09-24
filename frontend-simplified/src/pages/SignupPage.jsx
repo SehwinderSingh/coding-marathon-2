@@ -8,9 +8,7 @@ const SignupPage = () => {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [gender, setGender] = useState("");
     const [dateOfBirth, setDateOfBirth] = useState("");
-    const [street, setStreet] = useState("");
     const [city, setCity] = useState("");
-    const [zipCode, setZipCode] = useState("");
     const [error, setError] = useState("");
 
     const handleSubmit = (e) => {
@@ -50,7 +48,7 @@ const SignupPage = () => {
 
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label className="block font-bold mb-2">Name</label>
+                            <label className="block font-bold ">Name</label>
                             <input
                                 type="text"
                                 className="border rounded w-full py-2 px-3"
@@ -61,7 +59,7 @@ const SignupPage = () => {
                         </div>
 
                         <div className="mb-4">
-                            <label className="block font-bold mb-2">Email</label>
+                            <label className="block font-bold ">Email</label>
                             <input
                                 type="email"
                                 className="border rounded w-full py-2 px-3"
@@ -133,34 +131,12 @@ const SignupPage = () => {
                         </div>
 
                         <div className="mb-4">
-                            <label className="block font-bold mb-2">Street</label>
-                            <input
-                                type="text"
-                                className="border rounded w-full py-2 px-3"
-                                value={street}
-                                onChange={(e) => setStreet(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="mb-4">
                             <label className="block font-bold mb-2">City</label>
                             <input
                                 type="text"
                                 className="border rounded w-full py-2 px-3"
                                 value={city}
                                 onChange={(e) => setCity(e.target.value)}
-                                required
-                            />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block font-bold mb-2">Zip Code</label>
-                            <input
-                                type="text"
-                                className="border rounded w-full py-2 px-3"
-                                value={zipCode}
-                                onChange={(e) => setZipCode(e.target.value)}
                                 required
                             />
                         </div>
