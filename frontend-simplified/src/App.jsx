@@ -8,9 +8,11 @@ import MainLayout from "./layouts/MainLayout";
 import HomePage from "./pages/HomePage";
 import JobsPage from "./pages/JobsPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import JobPage from "./pages/JobPage"; 
+import JobPage from "./pages/JobPage";
 import AddJobPage from "./pages/AddJobPage";
 import EditJobPage from "./pages/EditJobPage";
+import LoginPage from "./pages/Login";
+import SignupPage from "./pages/signuppage";
 
 const App = () => {
   const router = createBrowserRouter(
@@ -22,7 +24,10 @@ const App = () => {
         <Route path="/edit-job/:id" element={<EditJobPage />} />
         <Route path="/jobs/:id" element={<JobPage />} />
         <Route path="*" element={<NotFoundPage />} />
+        <Route path="/signup" element={<signuppage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Route>
+
     )
   );
 
