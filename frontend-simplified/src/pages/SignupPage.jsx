@@ -17,6 +17,12 @@ const SignupPage = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+  const [city, setCity] = useState("");
+  const [street, setStreet] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -62,6 +68,14 @@ const SignupPage = () => {
     } catch (err) {
       setError("Failed to connect to the server. Please try again.");
     }
+      address: {
+        street,
+        city,
+        zipCode,
+      },
+    };
+
+    console.log("Signup data:", newUser);
   };
 
   return (
@@ -75,6 +89,11 @@ const SignupPage = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block font-bold">Name</label>
+          <h2 className="text-3xl text-center font-semibold mb-6">Sign Up</h2>
+
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label className="block font-bold ">Name</label>
               <input
                 type="text"
                 className="border rounded w-full py-2 px-3"
@@ -86,6 +105,7 @@ const SignupPage = () => {
 
             <div className="mb-4">
               <label className="block font-bold">Email</label>
+              <label className="block font-bold ">Email</label>
               <input
                 type="email"
                 className="border rounded w-full py-2 px-3"
@@ -110,6 +130,7 @@ const SignupPage = () => {
               <label className="block font-bold mb-2">
                 Confirm Password
               </label>
+              <label className="block font-bold mb-2">Confirm Password</label>
               <input
                 type="password"
                 className="border rounded w-full py-2 px-3"
@@ -163,6 +184,12 @@ const SignupPage = () => {
                 className="border rounded w-full py-2 px-3"
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
+              <label className="block font-bold mb-2">Street</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
                 required
               />
             </div>
@@ -170,6 +197,29 @@ const SignupPage = () => {
             {error && (
               <p className="text-red-500 mb-4">{error}</p>
             )}
+            <div className="mb-4">
+              <label className="block font-bold mb-2">City</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="block font-bold mb-2">Zip Code</label>
+              <input
+                type="text"
+                className="border rounded w-full py-2 px-3"
+                value={zipCode}
+                onChange={(e) => setZipCode(e.target.value)}
+                required
+              />
+            </div>
+
+            {error && <p className="text-red-500 mb-4">{error}</p>}
 
             <button
               type="submit"

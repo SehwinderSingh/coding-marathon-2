@@ -78,3 +78,16 @@ npm run preview
 This is the jobs listing project based on the [YouTube crash course](https://youtu.be/LDB4uaJ87e0).
 
 <img src="./frontend/public/screen.png" />
+
+## Backend Job API
+
+### Job Schema to JSON
+
+The Job schema uses ⁠ toJSON ⁠ to control how MongoDB documents are returned as JSON.
+
+•⁠  ⁠⁠ virtuals: true ⁠ includes virtual fields when the document is converted to JSON.
+•⁠  ⁠⁠ ret.id = ret._id ⁠ creates a simple ⁠ id ⁠ field from MongoDB's ⁠ _id ⁠.
+•⁠  ⁠⁠ delete ret._id ⁠ removes the original MongoDB ⁠ _id ⁠ field from the response.
+•⁠  ⁠⁠ delete ret.__v ⁠ removes Mongoose's internal version field.
+•⁠  ⁠⁠ return ret ⁠ returns the cleaned object to the client.
+
