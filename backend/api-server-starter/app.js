@@ -6,8 +6,11 @@ const morgan = require("morgan");
 const { unknownEndpoint,errorHandler } = require("./middleware/customMiddleware");
 const connectDB = require("./config/db");
 const cors = require("cors");
+const jobRouter = require("./routes/jobRouter");
+
 
 // Middlewares
+app.use("/api/jobs", jobRouter);
 app.use(cors())
 app.use(express.json());
 app.use(morgan("dev"));
