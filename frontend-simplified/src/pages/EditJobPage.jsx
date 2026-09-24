@@ -31,23 +31,25 @@ const EditJobPage = () => {
   //   return res.ok;
   // };
 
-  const updateJob = async (job) => {
-    try {
-      const res = await fetch(`/api/jobs/${job.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(job),
-      });
-      if (!res.ok) throw new Error("Failed to update job");
-      return res.ok;
-    } catch (error) {
-      console.error("Error updating job:", error);
-      return false;
-    }
-  };
+const updateJob = async (job) => {
+  const user = JSON.parse(localStorage.getItem("user"));
 
+  try {
+    const res = await fetch(`/api/jobs/${job.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user?.token}`,
+      },
+      body: JSON.stringify(job),
+    });
+    if (!res.ok) throw new Error("Failed to update job");
+    return res.ok;
+  } catch (error) {
+    console.error("Error updating job:", error);
+    return false;
+  }
+};
   // Fetch job data
   useEffect(() => {
     const fetchJob = async () => {
