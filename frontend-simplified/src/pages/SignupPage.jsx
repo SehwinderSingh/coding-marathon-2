@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const SignupPage = () => {
   const [name, setName] = useState("");
@@ -8,12 +10,15 @@ const SignupPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const { dispatch } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -37,7 +42,32 @@ const SignupPage = () => {
       },
     };
 
-    console.log("Signup data:", newUser);
+    try {
+      const response = await fetch("/api/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      const json = await response.json();
+
+      if (!response.ok) {
+        setError(json.error || "Signup failed");
+      } else {
+        // Save user & token to local storage
+        localStorage.setItem("user", JSON.stringify(json));
+
+        // Update global context
+        dispatch({ type: "LOGIN", payload: json });
+
+        // Redirect user to home
+        navigate("/");
+      }
+    } catch (err) {
+      setError("Failed to connect to the server. Please try again.");
+    }
   };
 
   return (
@@ -48,7 +78,7 @@ const SignupPage = () => {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block font-bold ">Name</label>
+              <label className="block font-bold mb-2">Name</label>
               <input
                 type="text"
                 className="border rounded w-full py-2 px-3"
@@ -59,7 +89,7 @@ const SignupPage = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block font-bold ">Email</label>
+              <label className="block font-bold mb-2">Email</label>
               <input
                 type="email"
                 className="border rounded w-full py-2 px-3"
