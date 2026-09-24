@@ -1,50 +1,49 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AuthContext } from '../context/AuthContext';
 
 const AddJobPage = () => {
-  const [title, setTitle] = useState("");
-  const [type, setType] = useState("Full-Time");
-  const [location, setLocation] = useState("");
-  const [description, setDescription] = useState("");
-  const [salary, setSalary] = useState("Under $50K");
-  const [companyName, setCompanyName] = useState("");
-  const [companyDescription, setCompanyDescription] = useState("");
-  const [contactEmail, setContactEmail] = useState("");
-  const [contactPhone, setContactPhone] = useState("");
+  const [title, setTitle] = useState('');
+  const [type, setType] = useState('Full-Time');
+  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [salary, setSalary] = useState('Under $50K');
+  const [companyName, setCompanyName] = useState('');
+  const [companyDescription, setCompanyDescription] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
+  const [contactPhone, setContactPhone] = useState('');
 
   const navigate = useNavigate();
-
-  // Add New Job
-  // const addJob = async (newJob) => {
-  //   const res = await fetch("/api/jobs", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(newJob),
-  //   });
-  //   return;
-  // };
+  const { user } = useContext(AuthContext); // Access auth context
 
   const addJob = async (newJob) => {
     try {
-      const res = await fetch("/api/jobs", {
-        method: "POST",
+      // Guard against missing user or token
+      if (!user || !user.token) {
+        toast.error('You must be logged in to create a job listing');
+        return;
+      }
+
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`,
         },
         body: JSON.stringify(newJob),
       });
-      if (!res.ok) {
-        throw new Error("Failed to add job");
+
+      if (res.ok) {
+        toast.success('Job Added Successfully');
+        navigate('/jobs');
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.message || 'Failed to add job');
       }
     } catch (error) {
-      console.error(error);
-      toast.error("An error occurred while adding the job.");
-      return false;
+      toast.error('Network error. Please try again.');
     }
-    return true;
   };
 
   const submitForm = (e) => {
@@ -65,10 +64,6 @@ const AddJobPage = () => {
     };
 
     addJob(newJob);
-
-    toast.success("Job Added Successfully");
-
-    return navigate("/jobs");
   };
 
   return (
@@ -79,10 +74,7 @@ const AddJobPage = () => {
             <h2 className="text-3xl text-center font-semibold mb-6">Add Job</h2>
 
             <div className="mb-4">
-              <label
-                htmlFor="type"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="type" className="block text-gray-700 font-bold mb-2">
                 Job Type
               </label>
               <select
@@ -109,17 +101,15 @@ const AddJobPage = () => {
                 id="title"
                 name="title"
                 className="border rounded w-full py-2 px-3 mb-2"
-                placeholder="eg. Beautiful Apartment In Miami"
+                placeholder="eg. Senior React Developer"
                 required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </div>
+
             <div className="mb-4">
-              <label
-                htmlFor="description"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="description" className="block text-gray-700 font-bold mb-2">
                 Description
               </label>
               <textarea
@@ -134,10 +124,7 @@ const AddJobPage = () => {
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="type"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="salary" className="block text-gray-700 font-bold mb-2">
                 Salary
               </label>
               <select
@@ -181,10 +168,7 @@ const AddJobPage = () => {
             <h3 className="text-2xl mb-5">Company Info</h3>
 
             <div className="mb-4">
-              <label
-                htmlFor="company"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="company" className="block text-gray-700 font-bold mb-2">
                 Company Name
               </label>
               <input
@@ -199,10 +183,7 @@ const AddJobPage = () => {
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="company_description"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="company_description" className="block text-gray-700 font-bold mb-2">
                 Company Description
               </label>
               <textarea
@@ -217,10 +198,7 @@ const AddJobPage = () => {
             </div>
 
             <div className="mb-4">
-              <label
-                htmlFor="contact_email"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="contact_email" className="block text-gray-700 font-bold mb-2">
                 Contact Email
               </label>
               <input
@@ -234,11 +212,9 @@ const AddJobPage = () => {
                 onChange={(e) => setContactEmail(e.target.value)}
               />
             </div>
+
             <div className="mb-4">
-              <label
-                htmlFor="contact_phone"
-                className="block text-gray-700 font-bold mb-2"
-              >
+              <label htmlFor="contact_phone" className="block text-gray-700 font-bold mb-2">
                 Contact Phone
               </label>
               <input
@@ -266,4 +242,5 @@ const AddJobPage = () => {
     </section>
   );
 };
+
 export default AddJobPage;
