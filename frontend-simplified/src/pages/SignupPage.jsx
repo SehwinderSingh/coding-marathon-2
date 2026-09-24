@@ -10,19 +10,15 @@ const SignupPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [gender, setGender] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [address, setAddress] = useState("");
+  const [street, setStreet] = useState("");
+  const [city, setCity] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [error, setError] = useState("");
 
   const { dispatch } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  const [city, setCity] = useState("");
-  const [street, setStreet] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [error, setError] = useState("");
-
-  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
@@ -39,7 +35,11 @@ const SignupPage = () => {
       phone_number: phoneNumber,
       gender,
       date_of_birth: dateOfBirth,
-      address,
+      address: {
+        street,
+        city,
+        zipCode,
+      },
     };
 
     try {
@@ -68,32 +68,17 @@ const SignupPage = () => {
     } catch (err) {
       setError("Failed to connect to the server. Please try again.");
     }
-      address: {
-        street,
-        city,
-        zipCode,
-      },
-    };
-
-    console.log("Signup data:", newUser);
   };
 
   return (
     <section className="bg-indigo-50">
       <div className="container m-auto max-w-2xl py-10">
         <div className="bg-white px-6 py-8 shadow-md rounded-md">
-          <h2 className="text-3xl text-center font-semibold mb-6">
-            Sign Up
-          </h2>
-
-          <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label className="block font-bold">Name</label>
           <h2 className="text-3xl text-center font-semibold mb-6">Sign Up</h2>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block font-bold ">Name</label>
+              <label className="block font-bold mb-2">Name</label>
               <input
                 type="text"
                 className="border rounded w-full py-2 px-3"
@@ -104,8 +89,7 @@ const SignupPage = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block font-bold">Email</label>
-              <label className="block font-bold ">Email</label>
+              <label className="block font-bold mb-2">Email</label>
               <input
                 type="email"
                 className="border rounded w-full py-2 px-3"
@@ -127,9 +111,6 @@ const SignupPage = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block font-bold mb-2">
-                Confirm Password
-              </label>
               <label className="block font-bold mb-2">Confirm Password</label>
               <input
                 type="password"
@@ -178,12 +159,6 @@ const SignupPage = () => {
             </div>
 
             <div className="mb-4">
-              <label className="block font-bold mb-2">Address</label>
-              <input
-                type="text"
-                className="border rounded w-full py-2 px-3"
-                value={address}
-                onChange={(e) => setAddress(e.target.value)}
               <label className="block font-bold mb-2">Street</label>
               <input
                 type="text"
@@ -194,9 +169,6 @@ const SignupPage = () => {
               />
             </div>
 
-            {error && (
-              <p className="text-red-500 mb-4">{error}</p>
-            )}
             <div className="mb-4">
               <label className="block font-bold mb-2">City</label>
               <input
