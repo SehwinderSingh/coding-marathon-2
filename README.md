@@ -79,15 +79,18 @@ This is the jobs listing project based on the [YouTube crash course](https://you
 
 <img src="./frontend/public/screen.png" />
 
-## Backend Job API
+## Job Schema to JSON
 
-### Job Schema to JSON
+We uses ⁠ `toJSON` ⁠ to control how MongoDB documents are returned as JSON.
 
-The Job schema uses ⁠ toJSON ⁠ to control how MongoDB documents are returned as JSON.
+- `virtuals: true` ⁠ includes virtual fields when the document is converted to JSON.
 
-•⁠  ⁠⁠ virtuals: true ⁠ includes virtual fields when the document is converted to JSON.
-•⁠  ⁠⁠ ret.id = ret._id ⁠ creates a simple ⁠ id ⁠ field from MongoDB's ⁠ _id ⁠.
-•⁠  ⁠⁠ delete ret._id ⁠ removes the original MongoDB ⁠ _id ⁠ field from the response.
-•⁠  ⁠⁠ delete ret.__v ⁠ removes Mongoose's internal version field.
-•⁠  ⁠⁠ return ret ⁠ returns the cleaned object to the client.
+- `ret.id = ret._id` ⁠ creates a simple ⁠ `id` ⁠ field from MongoDB's ⁠ `_id` ⁠.
 
+- `delete ret._id` ⁠ removes the original MongoDB ⁠ `_id` ⁠ field from the response.
+
+- `delete ret.__v` ⁠ removes Mongoose's internal version field.
+
+- `return ret` ⁠ returns the cleaned object to the client.
+
+This make the API response simpler for the fronted to use .
