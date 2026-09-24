@@ -1,0 +1,200 @@
+# Self-Assessment — Frontend
+
+My main responsibility in this project was the frontend. I worked on the Signup and Login pages, navigation, job listing handling, and frontend form/error handling.
+
+## Example 1: Signup Form and Validation
+
+I created the Signup page using React and `useState` to store the values entered by the user.
+
+The form includes fields such as name, email, password, confirm password, phone number, gender, date of birth, and address.
+
+One problem I needed to handle was checking that the password and confirm password were the same.
+
+```js
+if (password !== confirmPassword) {
+  setError("Passwords do not match");
+  return;
+}
+
+setError("");
+```
+
+I also collected the form values into a user object:
+
+```js
+const newUser = {
+  name,
+  email,
+  password,
+  phone_number: phoneNumber,
+  gender,
+  date_of_birth: dateOfBirth,
+  address,
+};
+
+console.log("Signup data:", newUser);
+```
+
+### What I improved and learned
+
+- I learned how to manage multiple form fields using `useState`.
+- I added simple validation for matching passwords.
+- I learned how to display an error message when the input is incorrect.
+- I tested the submitted data using the browser console.
+
+---
+
+## Example 2: Login Form
+
+I also created the Login page. I used state for the email, password, and error message.
+
+```js
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [error, setError] = useState("");
+```
+
+Before submitting the form, I checked that the required fields were not empty.
+
+```js
+if (!email || !password) {
+  setError("Please enter email and password");
+  return;
+}
+
+setError("");
+
+const loginUser = {
+  email,
+  password,
+};
+
+console.log("Login data:", loginUser);
+```
+
+At this stage, I used the console to test that the form was collecting the correct information.
+
+### What I improved and learned
+
+- I learned how to create a controlled form in React.
+- I learned how to validate required fields.
+- I tested the login form before connecting it to the backend authentication.
+
+---
+
+## Example 3: Handling an Empty Job List
+
+The original `JobListings` component directly mapped through the jobs:
+
+```js
+{jobs.map((job) => (
+  <JobListing key={job.id} job={job} />
+))}
+```
+
+The problem was that if there were no jobs, the page would not give the user any information.
+
+I improved it by checking the length of the jobs array:
+
+```js
+{jobs.length === 0 ? (
+  <p>No jobs available at the moment.</p>
+) : (
+  jobs.map((job) => (
+    <JobListing key={job.id} job={job} />
+  ))
+)}
+```
+
+### What I improved and learned
+
+- I learned more about conditional rendering in React.
+- The user now gets a message when there are no jobs.
+- This makes the interface clearer instead of showing an empty section.
+
+---
+
+## Example 4: Improving Add Job Error Handling
+
+While testing the Add Job page, I noticed that the code could show a success message and navigate to the jobs page without waiting for the API request to finish.
+
+The earlier code was:
+
+```js
+addJob(newJob);
+
+toast.success("Job Added Successfully");
+
+return navigate("/jobs");
+```
+
+I changed the submit function to wait for the API request:
+
+```js
+const success = await addJob(newJob);
+
+if (success) {
+  toast.success("Job Added Successfully");
+  navigate("/jobs");
+}
+```
+
+The API request also checks if the response is successful:
+
+```js
+if (!res.ok) {
+  throw new Error("Failed to add job");
+}
+```
+
+If it fails, an error message is shown:
+
+```js
+catch (error) {
+  console.error(error);
+  toast.error("An error occurred while adding the job.");
+  return false;
+}
+```
+
+### What I improved and learned
+
+- I learned how to use `async` and `await` with API requests.
+- The application now waits for the result before showing success.
+- I learned how frontend errors can help identify API problems.
+- During testing, I also found a `404` response for `POST /api/jobs`, which showed that the frontend request was reaching the backend but the required backend route was not available at that time.
+
+---
+
+## Other Frontend Work
+
+I also added Login and Signup links to the Navbar and added the routes for these pages in `App.jsx`.
+
+For example:
+
+```js
+<Route path="/signup" element={<SignupPage />} />
+<Route path="/login" element={<LoginPage />} />
+```
+
+While working on the Signup route, I also fixed a component rendering issue by using the React component with a capital letter:
+
+```js
+<SignupPage />
+```
+
+instead of:
+
+```js
+<signuppage />
+```
+
+This helped me understand that React components should start with a capital letter.
+---
+## Overall Reflection
+
+My main contribution to this project was frontend development. I worked mostly with React components, forms, state, routing, conditional rendering, and API calls.
+
+The most useful part for me was testing the application and fixing problems step by step. I learned that an issue visible on the frontend can also come from the backend, so checking browser errors and API responses is important.
+
+I also improved my understanding of `useState`, form validation, React Router, `async/await`, error handling, and communication between the frontend and backend.
